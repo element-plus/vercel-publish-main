@@ -2096,7 +2096,7 @@ Use the affix component to fix the anchor point within the page.
 | change | callback when the step changes             | ^[Function]`(href: string) => void`                 |
 | click  | Triggered when the user clicks on the link | ^[Function]`(e: MouseEvent, href?: string) => void` |
 
-### Anchor Methods
+### Anchor Exposes
 
 | Name     | Description                               | Type                                |
 | -------- | ----------------------------------------- | ----------------------------------- |
@@ -9066,22 +9066,23 @@ const cities = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
 ### options.vue
 ```vue
 <template>
-  <el-checkbox-group v-model="checkList" :options="options" />
+  <el-checkbox-group v-model="checkList" :options="options" :props="props" />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 
 const checkList = ref(['Value selected and disabled', 'Value A'])
+const props = { label: 'name', value: 'id', disabled: 'unable' }
 const options = [
-  { label: 'Option A', value: 'Value A' },
-  { label: 'Option B', value: 'Value B' },
-  { label: 'Option C', value: 'Value C' },
-  { label: 'disabled', value: 'Value disabled', disabled: true },
+  { name: 'Option A', id: 'Value A' },
+  { name: 'Option B', id: 'Value B' },
+  { name: 'Option C', id: 'Value C' },
+  { name: 'disabled', id: 'Value disabled', unable: true },
   {
-    label: 'selected and disabled',
-    value: 'Value selected and disabled',
-    disabled: true,
+    name: 'selected and disabled',
+    id: 'Value selected and disabled',
+    unable: true,
   },
 ]
 </script>
@@ -12808,7 +12809,9 @@ Custom icons available with slots.
 
 
 
-## Attributes
+## API
+
+### Attributes
 
 | Name                       | Description                                                                                                    | Type                                                                                           | Default             |
 | -------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------- |
@@ -12851,7 +12854,7 @@ Custom icons available with slots.
 | show-confirm ^(2.11.0)     | whether to show the confirm button                                                                             | ^[boolean]                                                                                     | true                |
 | show-week-number ^(2.10.3) | show the week number besides the week                                                                          | `boolean`                                                                                      | false               |
 
-## Events
+### Events
 
 | Name            | Description                                                           | Parameters                                                                                |
 | --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -12863,7 +12866,7 @@ Custom icons available with slots.
 | panel-change    | triggers when the navigation button click.                            | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
 | visible-change  | triggers when the DateTimePicker's dropdown appears/disappears        | ^[Function]`(visibility: boolean) => void`                                                |
 
-## Slots
+### Slots
 
 | Name                | Description                    |
 | ------------------- | ------------------------------ |
@@ -12874,7 +12877,7 @@ Custom icons available with slots.
 | prev-year ^(2.8.0)  | prev year icon                 |
 | next-year ^(2.8.0)  | next year icon                 |
 
-## Exposes
+### Exposes
 
 | Method        | Description                    | Type                    |
 | ------------- | ------------------------------ | ----------------------- |
@@ -15429,30 +15432,39 @@ Besides default size, Dropdown component provides three additional sizes for you
 
 
 
+## Virtual triggering ^(2.11.3)
+
+Sometimes we want to render the dropdown on some other trigger element, we can separate the trigger and the content.
+
+
+
 ## Dropdown API
 
 ### Dropdown Attributes
 
-| Name                  | Description                                                                                                           | Type                                                                                                         | Default                                                                    |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
-| type                  | menu button type, refer to `Button` Component, only works when `split-button` is true                                 | ^[enum]`'' \| 'default' \| 'primary' \| 'success' \| 'warning' \| 'info' \| 'danger' \| 'text' (deprecated)` | ''                                                                         |
-| size                  | menu size, also works on the split button                                                                             | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                               | ''                                                                         |
-| button-props          | props for the button component, refer to [Button Attributes](./button.html#button-attributes)                         | ^[object]                                                                                                    | —                                                                          |
-| max-height            | the max height of menu                                                                                                | ^[string] / ^[number]                                                                                        | ''                                                                         |
-| split-button          | whether a button group is displayed                                                                                   | ^[boolean]                                                                                                   | false                                                                      |
-| disabled              | whether to disable                                                                                                    | ^[boolean]                                                                                                   | false                                                                      |
-| placement             | placement of pop menu                                                                                                 | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'`                     | bottom                                                                     |
-| trigger               | how to trigger                                                                                                        | ^[enum]`'hover' \| 'click' \| 'contextmenu'`                                                                 | hover                                                                      |
-| trigger-keys ^(2.9.1) | specify which keys on the keyboard can trigger when pressed                                                           | ^[array]`string[]`                                                                                           | `['Enter', 'Space', 'ArrowDown', 'NumpadEnter']`                           |
-| hide-on-click         | whether to hide menu after clicking menu-item                                                                         | ^[boolean]                                                                                                   | true                                                                       |
-| show-timeout          | delay time before show a dropdown (only works when trigger is `hover`)                                                | ^[number]                                                                                                    | 150                                                                        |
-| hide-timeout          | delay time before hide a dropdown (only works when trigger is `hover`)                                                | ^[number]                                                                                                    | 150                                                                        |
-| role                  | the ARIA role attribute for the dropdown menu. Depending on the use case, you may want to change this to 'navigation' | ^[enum]`'dialog' \| 'grid' \| 'group' \| 'listbox' \| 'menu' \| 'navigation' \| 'tooltip' \| 'tree'`         | menu                                                                       |
-| tabindex              | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Dropdown                  | ^[number] / ^[string]                                                                                        | 0                                                                          |
-| popper-class          | custom class name for Dropdown's dropdown                                                                             | ^[string]                                                                                                    | ''                                                                         |
-| popper-options        | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]                                                                                                    | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
-| teleported ^(2.2.20)  | whether the dropdown popup is teleported to the body                                                                  | ^[boolean]                                                                                                   | true                                                                       |
-| persistent ^(2.9.5)   | when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed                                  | ^[boolean]                                                                                                   | true                                                                       |
+| Name                         | Description                                                                                                           | Type                                                                                                         | Default                                                                    |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| type                         | menu button type, refer to `Button` Component, only works when `split-button` is true                                 | ^[enum]`'' \| 'default' \| 'primary' \| 'success' \| 'warning' \| 'info' \| 'danger' \| 'text' (deprecated)` | ''                                                                         |
+| size                         | menu size, also works on the split button                                                                             | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                               | ''                                                                         |
+| button-props                 | props for the button component, refer to [Button Attributes](./button.html#button-attributes)                         | ^[object]                                                                                                    | —                                                                          |
+| max-height                   | the max height of menu                                                                                                | ^[string] / ^[number]                                                                                        | ''                                                                         |
+| split-button                 | whether a button group is displayed                                                                                   | ^[boolean]                                                                                                   | false                                                                      |
+| disabled                     | whether to disable                                                                                                    | ^[boolean]                                                                                                   | false                                                                      |
+| placement                    | placement of pop menu                                                                                                 | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'`                     | bottom                                                                     |
+| trigger                      | how to trigger                                                                                                        | ^[enum]`'hover' \| 'click' \| 'contextmenu'`                                                                 | hover                                                                      |
+| trigger-keys ^(2.9.1)        | specify which keys on the keyboard can trigger when pressed                                                           | ^[array]`string[]`                                                                                           | `['Enter', 'Space', 'ArrowDown', 'NumpadEnter']`                           |
+| virtual-triggering ^(2.11.3) | indicates whether virtual triggering is enabled                                                                       | ^[boolean]                                                                                                   | —                                                                          |
+| virtual-ref ^(2.11.3)        | indicates the reference element to which the dropdown is attached                                                     | ^[HTMLElement]                                                                                               | —                                                                          |
+| hide-on-click                | whether to hide menu after clicking menu-item                                                                         | ^[boolean]                                                                                                   | true                                                                       |
+| show-arrow ^(2.11.3)         | whether the tooltip content has an arrow                                                                              | ^[boolean]                                                                                                   | true                                                                       |
+| show-timeout                 | delay time before show a dropdown (only works when trigger is `hover`)                                                | ^[number]                                                                                                    | 150                                                                        |
+| hide-timeout                 | delay time before hide a dropdown (only works when trigger is `hover`)                                                | ^[number]                                                                                                    | 150                                                                        |
+| role                         | the ARIA role attribute for the dropdown menu. Depending on the use case, you may want to change this to 'navigation' | ^[enum]`'dialog' \| 'grid' \| 'group' \| 'listbox' \| 'menu' \| 'navigation' \| 'tooltip' \| 'tree'`         | menu                                                                       |
+| tabindex                     | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Dropdown                  | ^[number] / ^[string]                                                                                        | 0                                                                          |
+| popper-class                 | custom class name for Dropdown's dropdown                                                                             | ^[string]                                                                                                    | ''                                                                         |
+| popper-options               | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | ^[object]                                                                                                    | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
+| teleported ^(2.2.20)         | whether the dropdown popup is teleported to the body                                                                  | ^[boolean]                                                                                                   | true                                                                       |
+| persistent ^(2.9.5)          | when dropdown inactive and `persistent` is `false` , dropdown menu will be destroyed                                  | ^[boolean]                                                                                                   | true                                                                       |
 
 ### Dropdown Slots
 
@@ -15943,6 +15955,89 @@ const handleClick = () => {
   color: var(--el-color-primary);
   display: flex;
   align-items: center;
+}
+</style>
+
+```
+
+### virtual-trigger.vue
+```vue
+<template>
+  <el-card
+    class="content"
+    @click="handleClick"
+    @contextmenu="handleContextmenu"
+  >
+    Right click
+  </el-card>
+  <el-dropdown
+    ref="dropdownRef"
+    :virtual-ref="triggerRef"
+    :show-arrow="false"
+    :popper-options="{
+      modifiers: [{ name: 'offset', options: { offset: [0, 0] } }],
+    }"
+    virtual-triggering
+    trigger="contextmenu"
+    placement="bottom-start"
+  >
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item :icon="Plus">Action 1</el-dropdown-item>
+        <el-dropdown-item :icon="CirclePlusFilled"> Action 2 </el-dropdown-item>
+        <el-dropdown-item :icon="CirclePlus">Action 3</el-dropdown-item>
+        <el-dropdown-item :icon="Check">Action 4</el-dropdown-item>
+        <el-dropdown-item :icon="CircleCheck">Action 5</el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+import {
+  Check,
+  CircleCheck,
+  CirclePlus,
+  CirclePlusFilled,
+  Plus,
+} from '@element-plus/icons-vue'
+
+import type { DropdownInstance } from 'element-plus'
+
+const dropdownRef = ref<DropdownInstance>()
+const position = ref({
+  top: 0,
+  left: 0,
+  bottom: 0,
+  right: 0,
+} as DOMRect)
+
+const triggerRef = ref({
+  getBoundingClientRect: () => position.value,
+})
+
+const handleClick = () => {
+  dropdownRef.value?.handleClose()
+}
+
+const handleContextmenu = (event: MouseEvent) => {
+  const { clientX, clientY } = event
+  position.value = DOMRect.fromRect({
+    x: clientX,
+    y: clientY,
+  })
+  event.preventDefault()
+  dropdownRef.value?.handleOpen()
+}
+</script>
+
+<style scoped>
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
 }
 </style>
 
@@ -17445,6 +17540,7 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 | preview-teleported     | whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`.                     | ^[boolean]                                                              | false   |
 | infinite               | whether the viewer preview is infinite.                                                                                                           | ^[boolean]                                                              | true    |
 | zoom-rate              | the zoom rate of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 1.2     |
+| scale ^(2.11.3)        | the preview image scale.                                                                                                                          | ^[number]                                                               | 1       |
 | min-scale ^(2.4.0)     | the min scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 0.2     |
 | max-scale ^(2.4.0)     | the max scale of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 7       |
 | show-progress ^(2.9.4) | whether to display the preview image progress content.                                                                                            | ^[boolean]                                                              | false   |
@@ -17461,13 +17557,11 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 
 ### Image Slots
 
-| Name              | Description                                                                                | Type                                                                                                                                                                                                              |
-| ----------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| placeholder       | custom placeholder content when image hasn't loaded yet.                                   | -                                                                                                                                                                                                                 |
-| error             | custom image load failed content.                                                          | -                                                                                                                                                                                                                 |
-| viewer            | custom content when image preview.                                                         | -                                                                                                                                                                                                                 |
-| progress ^(2.9.4) | custom progress content when image preview. (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
-| toolbar ^(2.9.4)  | custom toolbar content when image preview.                                                 | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
+| Name                                      | Description                                                           | Type |
+| ----------------------------------------- | --------------------------------------------------------------------- | ---- |
+| placeholder                               | custom placeholder content when image hasn't loaded yet.              | -    |
+| error                                     | custom image load failed content.                                     | -    |
+| [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used. | -    |
 
 ### Image Exposes
 
@@ -17488,6 +17582,7 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 | hide-on-click-modal    | whether user can emit close event when clicking backdrop.                                                                     | ^[boolean]            | false   |
 | teleported             | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true`. | ^[boolean]            | false   |
 | zoom-rate ^(2.2.27)    | the zoom rate of the image viewer zoom event.                                                                                 | ^[number]             | 1.2     |
+| scale ^(2.11.3)        | the preview image scale.                                                                                                      | ^[number]             | 1       |
 | min-scale ^(2.4.0)     | the min scale of the image viewer zoom event.                                                                                 | ^[number]             | 0.2     |
 | max-scale ^(2.4.0)     | the max scale of the image viewer zoom event.                                                                                 | ^[number]             | 7       |
 | close-on-press-escape  | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
@@ -17498,8 +17593,18 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 | Name             | Description                                                                                       | Type                                 |
 | ---------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | close            | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
+| error ^(2.11.3)  | same as native error.                                                                             | ^[Function]`(e: Event) => void`      |
 | switch           | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
 | rotate ^(2.3.13) | trigger when rotating images.                                                                     | ^[Function]`(deg: number) => void`   |
+
+### Image Viewer Slots
+
+| Name                   | Description                                                            | Type                                                                                                                                                                                                              |
+| ---------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| viewer                 | custom content                                                         | -                                                                                                                                                                                                                 |
+| progress ^(2.9.4)      | custom progress content (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
+| toolbar ^(2.9.4)       | custom toolbar content                                                 | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
+| viewer-error ^(2.11.3) | custom image load failed content.                                      | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                   |
 
 ### Image Viewer Exposes
 
@@ -17782,64 +17887,85 @@ const urls = [
 ### load-failed.vue
 ```vue
 <template>
-  <div class="demo-image__error">
-    <div class="block">
-      <span class="demonstration">Default</span>
-      <el-image />
-    </div>
-    <div class="block">
-      <span class="demonstration">Custom</span>
-      <el-image>
-        <template #error>
-          <div class="image-slot">
-            <el-icon><icon-picture /></el-icon>
-          </div>
-        </template>
-      </el-image>
-    </div>
+  <div class="demo-image__error" flex gap-2>
+    <el-image />
+    <el-image>
+      <template #error>
+        <div class="image-viewer-slot image-slot">
+          <el-icon><icon-picture /></el-icon>
+        </div>
+      </template>
+    </el-image>
+    <el-image :src="url" :preview-src-list="srcList" show-progress>
+      <template #viewer-error="{ activeIndex, src }">
+        <div class="image-slot viewer-error">
+          <el-icon><icon-picture /></el-icon>
+          <span>
+            this is viewer-error slot. current index: {{ activeIndex }}. src:
+            {{ src }}
+          </span>
+        </div>
+      </template>
+    </el-image>
+    <el-button @click="showPreview = true"> preview controlled </el-button>
+
+    <el-image-viewer
+      v-if="showPreview"
+      show-progress
+      :url-list="srcList"
+      @close="showPreview = false"
+    >
+      <template #viewer-error="{ activeIndex, src }">
+        <div class="image-slot viewer-error">
+          <el-icon><icon-picture /></el-icon>
+          <span>
+            this is viewer-error slot. current index: {{ activeIndex }}. src:
+            {{ src }}
+          </span>
+        </div>
+      </template>
+    </el-image-viewer>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { Picture as IconPicture } from '@element-plus/icons-vue'
+
+const showPreview = ref(false)
+
+const srcList = [
+  'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+  'https://errorSrc',
+]
+const url =
+  'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg'
 </script>
 
 <style scoped>
-.demo-image__error .block {
-  padding: 30px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 49%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-.demo-image__error .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
 .demo-image__error .el-image {
-  padding: 0 5px;
   max-width: 300px;
   max-height: 200px;
   width: 100%;
-  height: 200px;
 }
 
 .demo-image__error .image-slot {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
-  background: var(--el-fill-color-light);
-  color: var(--el-text-color-secondary);
+  flex-direction: column;
   font-size: 30px;
+  height: 200px;
+  background: #fff;
 }
 .demo-image__error .image-slot .el-icon {
   font-size: 30px;
+}
+.image-viewer-slot {
+  background: var(--el-fill-color-light);
+}
+.viewer-error {
+  color: #000;
 }
 </style>
 
@@ -18525,15 +18651,16 @@ You can customize the prefix and suffix of the InputTag by `prefix` and `suffix`
 
 ### Events
 
-| Name       | Description                             | Type                                              |
-| ---------- | --------------------------------------- | ------------------------------------------------- |
-| change     | triggers when the modelValue change     | ^[Function]`(value: string[]) => void`            |
-| input      | triggers when the input value change    | ^[Function]`(value: string) => void`              |
-| add-tag    | triggers when a tag is added            | ^[Function]`(value: string \| string []) => void` |
-| remove-tag | triggers when a tag is removed          | ^[Function]`(value: string) => void`              |
-| focus      | triggers when InputTag focuses          | ^[Function]`(event: FocusEvent) => void`          |
-| blur       | triggers when InputTag blurs            | ^[Function]`(event: FocusEvent) => void`          |
-| clear      | triggers when the clear icon is clicked | ^[Function]`() => void`                           |
+| Name               | Description                             | Type                                                                     |
+| ------------------ | --------------------------------------- | ------------------------------------------------------------------------ |
+| change             | triggers when the modelValue change     | ^[Function]`(value: string[]) => void`                                   |
+| input              | triggers when the input value change    | ^[Function]`(value: string) => void`                                     |
+| add-tag            | triggers when a tag is added            | ^[Function]`(value: string \| string []) => void`                        |
+| remove-tag         | triggers when a tag is removed          | ^[Function]`(value: string, index: number) => void`                      |
+| drag-tag ^(2.11.3) | triggers when a tag is dragged          | ^[Function]`(oldIndex: number, newIndex: number, value: string) => void` |
+| focus              | triggers when InputTag focuses          | ^[Function]`(event: FocusEvent) => void`                                 |
+| blur               | triggers when InputTag blurs            | ^[Function]`(event: FocusEvent) => void`                                 |
+| clear              | triggers when the clear icon is clicked | ^[Function]`() => void`                                                  |
 
 ### Slots
 
@@ -20266,6 +20393,12 @@ The most basic usage.
 
 
 
+## Props ^(2.11.3)
+
+You can customize the alias of the `options` through the `props` attribute.
+
+
+
 ## Textarea
 
 The input type can be set to `textarea`.
@@ -20308,22 +20441,23 @@ to work with `el-form`.
 
 ### Attributes
 
-| Name                                 | Description                                                                            | Type                                                                         | Default    |
-| ------------------------------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------- |
-| options                              | mention options list                                                                   | ^[array]`MentionOption[]`                                                    | `[]`       |
-| prefix                               | prefix character to trigger mentions. The string length must be exactly 1              | ^[string] \| ^[array]`string[]`                                              | `'@'`      |
-| split                                | character to split mentions. The string length must be exactly 1                       | ^[string]                                                                    | `' '`      |
-| filter-option                        | customize filter option logic                                                          | ^[false] \| ^[Function]`(pattern: string, option: MentionOption) => boolean` | —          |
-| placement                            | set popup placement                                                                    | ^[string]`'bottom' \| 'top'`                                                 | `'bottom'` |
-| show-arrow                           | whether the dropdown panel has an arrow                                                | ^[boolean]                                                                   | `false`    |
-| offset                               | offset of the dropdown panel                                                           | ^[number]                                                                    | `0`        |
-| whole                                | when backspace is pressed to delete, whether the mention content is deleted as a whole | ^[boolean]                                                                   | `false`    |
-| check-is-whole                       | when backspace is pressed to delete, check if the mention is a whole                   | ^[Function]`(pattern: string, prefix: string) => boolean`                    | —          |
-| loading                              | whether the dropdown panel of mentions is in a loading state                           | ^[boolean]                                                                   | `false`    |
-| model-value / v-model                | input value                                                                            | ^[string]                                                                    | —          |
-| popper-class                         | custom class name for dropdown panel                                                   | ^[string]                                                                    | —          |
-| popper-options                       | [popper.js](https://popper.js.org/docs/v2/) parameters                                 | ^[object] refer to [popper.js doc](https://popper.js.org/docs/v2/)           | —          |
-| [input props](./input.md#attributes) | —                                                                                      | —                                                                            | —          |
+| Name                                 | Description                                                                            | Type                                                                         | Default                                                  |
+| ------------------------------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------- |
+| options                              | mention options list                                                                   | ^[array]`MentionOption[]`                                                    | `[]`                                                     |
+| props ^(2.11.3)                      | configuration options                                                                  | ^[object]`MentionOptionProps`                                                | `{value: 'value', label: 'label', disabled: 'disabled'}` |
+| prefix                               | prefix character to trigger mentions. The string length must be exactly 1              | ^[string] \| ^[array]`string[]`                                              | `'@'`                                                    |
+| split                                | character to split mentions. The string length must be exactly 1                       | ^[string]                                                                    | `' '`                                                    |
+| filter-option                        | customize filter option logic                                                          | ^[false] \| ^[Function]`(pattern: string, option: MentionOption) => boolean` | —                                                        |
+| placement                            | set popup placement                                                                    | ^[string]`'bottom' \| 'top'`                                                 | `'bottom'`                                               |
+| show-arrow                           | whether the dropdown panel has an arrow                                                | ^[boolean]                                                                   | `false`                                                  |
+| offset                               | offset of the dropdown panel                                                           | ^[number]                                                                    | `0`                                                      |
+| whole                                | when backspace is pressed to delete, whether the mention content is deleted as a whole | ^[boolean]                                                                   | `false`                                                  |
+| check-is-whole                       | when backspace is pressed to delete, check if the mention is a whole                   | ^[Function]`(pattern: string, prefix: string) => boolean`                    | —                                                        |
+| loading                              | whether the dropdown panel of mentions is in a loading state                           | ^[boolean]                                                                   | `false`                                                  |
+| model-value / v-model                | input value                                                                            | ^[string]                                                                    | —                                                        |
+| popper-class                         | custom class name for dropdown panel                                                   | ^[string]                                                                    | —                                                        |
+| popper-options                       | [popper.js](https://popper.js.org/docs/v2/) parameters                                 | ^[object] refer to [popper.js doc](https://popper.js.org/docs/v2/)           | —                                                        |
+| [input props](./input.md#attributes) | —                                                                                      | —                                                                            | —                                                        |
 
 ### Events
 
@@ -20359,10 +20493,17 @@ to work with `el-form`.
 
 ```ts
 type MentionOption = {
-  value: string
+  value?: string
   label?: string
   disabled?: boolean
   [key: string]: any
+}
+
+type MentionOptionProps = {
+  value?: string
+  label?: string
+  disabled?: string
+  [key: string]: string | undefined
 }
 ```
 
@@ -20610,6 +20751,47 @@ const handleSearch = (_: string, prefix: string) => {
     value,
   }))
 }
+</script>
+
+```
+
+### props.vue
+```vue
+<template>
+  <el-mention
+    v-model="value"
+    :options="options"
+    :props="props"
+    style="width: 320px"
+    placeholder="Please input"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const value = ref('@')
+const props = { label: 'name', value: 'id', disabled: 'unable' }
+const options = ref([
+  {
+    name: 'Fuphoenixes',
+    id: 'Fuphoenixes',
+    unable: true,
+  },
+  {
+    name: 'kooriookami',
+    id: 'kooriookami',
+  },
+  {
+    name: 'Jeremy',
+    id: 'Jeremy',
+    unable: true,
+  },
+  {
+    name: 'btea',
+    id: 'btea',
+  },
+])
 </script>
 
 ```
@@ -24480,9 +24662,13 @@ Radio should not have too many options. Otherwise, use the Select component inst
 
 
 
-## Radio button group
+## Radio Group
 
 Suitable for choosing from some mutually exclusive options.
+
+
+
+## With borders
 
 
 
@@ -24490,19 +24676,9 @@ Suitable for choosing from some mutually exclusive options.
 
 
 
-## Button style
+## Radio Button
 
-Radio with button styles.
-
-
-
-## Button style
-
-Radio with button styles.
-
-
-
-## With borders
+Radio with button group visual effect.
 
 
 
@@ -24615,88 +24791,6 @@ const radio3 = ref('1')
 
 ```
 
-### button-fill-textcolor.vue
-```vue
-<template>
-  <div>
-    <el-radio-group v-model="radio1" size="large" fill="#6cf">
-      <el-radio-button label="New York" value="New York" />
-      <el-radio-button label="Washington" value="Washington" />
-      <el-radio-button label="Los Angeles" value="Los Angeles" />
-      <el-radio-button label="Chicago" value="Chicago" />
-    </el-radio-group>
-  </div>
-  <div style="margin-top: 20px">
-    <el-radio-group
-      v-model="radio2"
-      text-color="#626aef"
-      fill="rgb(239, 240, 253)"
-    >
-      <el-radio-button label="New York" value="New York" />
-      <el-radio-button label="Washington" value="Washington" />
-      <el-radio-button label="Los Angeles" value="Los Angeles" />
-      <el-radio-button label="Chicago" value="Chicago" />
-    </el-radio-group>
-  </div>
-  <div style="margin-top: 20px">
-    <el-radio-group v-model="radio3" size="small">
-      <el-radio-button label="New York" value="New York" />
-      <el-radio-button label="Washington" value="Washington" disabled />
-      <el-radio-button label="Los Angeles" value="Los Angeles" />
-      <el-radio-button label="Chicago" value="Chicago" />
-    </el-radio-group>
-  </div>
-</template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const radio1 = ref('New York')
-const radio2 = ref('New York')
-const radio3 = ref('New York')
-</script>
-
-```
-
-### button-style.vue
-```vue
-<template>
-  <div>
-    <el-radio-group v-model="radio1" size="large">
-      <el-radio-button label="New York" value="New York" />
-      <el-radio-button label="Washington" value="Washington" />
-      <el-radio-button label="Los Angeles" value="Los Angeles" />
-      <el-radio-button label="Chicago" value="Chicago" />
-    </el-radio-group>
-  </div>
-  <div style="margin-top: 20px">
-    <el-radio-group v-model="radio2">
-      <el-radio-button label="New York" value="New York" />
-      <el-radio-button label="Washington" value="Washington" />
-      <el-radio-button label="Los Angeles" value="Los Angeles" />
-      <el-radio-button label="Chicago" value="Chicago" />
-    </el-radio-group>
-  </div>
-  <div style="margin-top: 20px">
-    <el-radio-group v-model="radio3" size="small">
-      <el-radio-button label="New York" value="New York" />
-      <el-radio-button label="Washington" value="Washington" disabled />
-      <el-radio-button label="Los Angeles" value="Los Angeles" />
-      <el-radio-button label="Chicago" value="Chicago" />
-    </el-radio-group>
-  </div>
-</template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const radio1 = ref('New York')
-const radio2 = ref('New York')
-const radio3 = ref('New York')
-</script>
-
-```
-
 ### disabled.vue
 ```vue
 <template>
@@ -24717,33 +24811,75 @@ const radio = ref('selected and disabled')
 ### options.vue
 ```vue
 <template>
-  <el-radio-group v-model="radio" :options="options" />
+  <el-radio-group v-model="radio" :options="options" :props="props" />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 
 const radio = ref(3)
-
+const props = { value: 'id', label: 'name', disabled: 'unable' }
 const options = [
   {
-    value: 3,
-    label: 'Option A',
+    id: 3,
+    name: 'Option A',
   },
   {
-    value: 6,
-    label: 'Option B',
+    id: 6,
+    name: 'Option B',
   },
   {
-    value: 9,
-    label: 'Option C',
+    id: 9,
+    name: 'Option C',
+    unable: true,
   },
 ]
 </script>
 
 ```
 
-### radio-button-group.vue
+### radio-button.vue
+```vue
+<template>
+  <div>
+    <el-radio-group v-model="radio" size="large" fill="#6cf">
+      <el-radio-button label="New York" value="New York" />
+      <el-radio-button label="Washington" value="Washington" />
+      <el-radio-button label="Los Angeles" value="Los Angeles" />
+      <el-radio-button label="Chicago" value="Chicago" />
+    </el-radio-group>
+  </div>
+  <div style="margin-top: 20px">
+    <el-radio-group
+      v-model="radio"
+      text-color="#626aef"
+      fill="rgb(239, 240, 253)"
+    >
+      <el-radio-button label="New York" value="New York" />
+      <el-radio-button label="Washington" value="Washington" />
+      <el-radio-button label="Los Angeles" value="Los Angeles" />
+      <el-radio-button label="Chicago" value="Chicago" />
+    </el-radio-group>
+  </div>
+  <div style="margin-top: 20px">
+    <el-radio-group v-model="radio" size="small">
+      <el-radio-button label="New York" value="New York" />
+      <el-radio-button label="Washington" value="Washington" disabled />
+      <el-radio-button label="Los Angeles" value="Los Angeles" />
+      <el-radio-button label="Chicago" value="Chicago" />
+    </el-radio-group>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const radio = ref('New York')
+</script>
+
+```
+
+### radio-group.vue
 ```vue
 <template>
   <el-radio-group v-model="radio">
@@ -30688,7 +30824,7 @@ Display statistics.
 
 ### Countdown Events
 
-| Method | Description                  | Type                                 |
+| Name   | Description                  | Type                                 |
 | ------ | ---------------------------- | ------------------------------------ |
 | change | Time difference change event | ^[Function]`(value: number) => void` |
 | finish | countdown end event          | ^[Function]`() => void`              |
@@ -31740,7 +31876,9 @@ Use the methods provided by Table V2 to scroll manually/programmatically with de
 
 
 
-## TableV2 Attributes
+## TableV2 API
+
+### TableV2 Attributes
 
 | Name                      | Description                                                                                                                | Type                                                   | Default   |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | --------- |
@@ -31776,7 +31914,7 @@ Use the methods provided by Table V2 to scroll manually/programmatically with de
 | sort-by                   | Sort indicator                                                                                                             | `object`\<[SortBy](#typings)\>                         | {}        |
 | sort-state                | Multiple sort indicator                                                                                                    | `object`\<[SortState](#typings)\>                      | undefined |
 
-## TableV2 Slots
+### TableV2 Slots
 
 | Name        | Params                                      |
 | ----------- | ------------------------------------------- |
@@ -31788,7 +31926,7 @@ Use the methods provided by Table V2 to scroll manually/programmatically with de
 | empty       | —                                           |
 | overlay     | —                                           |
 
-## TableV2 Events
+### TableV2 Events
 
 | Name                 | Description                                                                                                                     | Parameters                                    |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
@@ -31799,9 +31937,9 @@ Use the methods provided by Table V2 to scroll manually/programmatically with de
 | rows-rendered        | Invoked when rows are rendered                                                                                                  | `object`\<[RowsRenderedParams](#typings)\>    |
 | row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon                                                           | `object`\<[RowExpandParams](#typings)\>       |
 
-## TableV2 Methods
+### TableV2 Exposes
 
-| Event Name   | Description                                          | Parameters                                                                             |
+| Method       | Description                                          | Parameters                                                                             |
 | ------------ | ---------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | scrollTo     | Scroll to a given position                           | ^[Function]`(param: {scrollLeft?: number, scrollTop?: number}) => void`                |
 | scrollToLeft | Scroll to a given horizontal position                | ^[Function]`(scrollLeft: number) => void`                                              |
@@ -31810,7 +31948,7 @@ Use the methods provided by Table V2 to scroll manually/programmatically with de
 
 
 
-## Column Attribute
+### Column Attribute
 
 | Name               | Description                                                           | Type                                                                                                                                                                 | Default |
 | ------------------ | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
@@ -39013,6 +39151,8 @@ Various parameter passing types of target. The string and Function types are sup
 | finish | callback function on finished  | ^[Function]`() => void`                |
 | change | callback when the step changes | ^[Function]`(current: number) => void` |
 
+## TourStep API
+
 ### TourStep Attributes
 
 | Property                 | Description                                                                                                                                                                                            | Type                                                                                                                                                                        | Default   |
@@ -39827,6 +39967,36 @@ and please go to the original component to view the documentation.
 | Name                 | Description                                                                                                         | Type                     | Default |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------ | ------- |
 | cache-data ^(2.2.26) | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | ^[object]`CacheOption[]` | []      |
+
+### Exposes
+
+
+
+| Name                                 | Description                                                                                                          | Type                                                                                                                                                                                                                                                                                        |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| treeRef ^(2.11.3)                    | Tree component instance                                                                                              | `TreeInstance`                                                                                                                                                                                                                                                                              |
+| selectRef ^(2.11.3)                  | Select component instance                                                                                            | `SelectInstance`                                                                                                                                                                                                                                                                            |
+| filter ^(deprecated)                 | filter all tree nodes, filtered nodes will be hidden                                                                 | Accept a parameter which will be used as first parameter for filter-node-method                                                                                                                                                                                                             |
+| updateKeyChildren ^(deprecated)      | set new data to node, only works when `node-key` is assigned                                                         | (key, data) Accept two parameters: 1. key of node 2. new data                                                                                                                                                                                                                               |
+| getCheckedNodes ^(deprecated)        | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of nodes            | (leafOnly, includeHalfChecked) Accept two boolean type parameters: 1. default value is `false`. If the parameter is `true`, it only returns the currently selected array of sub-nodes. 2. default value is `false`. If the parameter is `true`, the return value contains halfchecked nodes |
+| setCheckedNodes ^(deprecated)        | set certain nodes to be checked, only works when `node-key` is assigned                                              | an array of nodes to be checked                                                                                                                                                                                                                                                             |
+| getCheckedKeys ^(deprecated)         | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys      | (leafOnly) Accept a boolean type parameter whose default value is `false`. If the parameter is `true`, it only returns the currently selected array of sub-nodes.                                                                                                                           |
+| setCheckedKeys ^(deprecated)         | set certain nodes to be checked, only works when `node-key` is assigned                                              | (keys, leafOnly) Accept two parameters: 1. an array of node's keys to be checked 2. a boolean parameter. If set to `true`, only the checked status of leaf nodes will be set. The default value is `false`.                                                                                 |
+| setChecked ^(deprecated)             | set node to be checked or not, only works when `node-key` is assigned                                                | (key/data, checked, deep) Accept three parameters: 1. node's key or data to be checked 2. a boolean typed parameter indicating checked or not. 3. a boolean typed parameter indicating deep or not.                                                                                         |
+| getHalfCheckedNodes ^(deprecated)    | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes       | —                                                                                                                                                                                                                                                                                           |
+| getHalfCheckedKeys ^(deprecated)     | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | —                                                                                                                                                                                                                                                                                           |
+| getCurrentKey ^(deprecated)          | return the highlight node's key (null if no node is highlighted)                                                     | —                                                                                                                                                                                                                                                                                           |
+| getCurrentNode ^(deprecated)         | return the highlight node's data (null if no node is highlighted)                                                    | —                                                                                                                                                                                                                                                                                           |
+| setCurrentKey ^(deprecated)          | set highlighted node by key, only works when `node-key` is assigned                                                  | (key, shouldAutoExpandParent=true) 1. the node's key to be highlighted. If `null`, cancel the currently highlighted node 2. whether to automatically expand parent node                                                                                                                     |
+| setCurrentNode ^(deprecated)         | set highlighted node, only works when `node-key` is assigned                                                         | (node, shouldAutoExpandParent=true) 1. the node to be highlighted 2. whether to automatically expand parent node                                                                                                                                                                            |
+| getNode ^(deprecated)                | get node by data or key                                                                                              | (data) the node's data or key                                                                                                                                                                                                                                                               |
+| remove ^(deprecated)                 | remove a node, only works when node-key is assigned                                                                  | (data) the node's data or node to be deleted                                                                                                                                                                                                                                                |
+| append ^(deprecated)                 | append a child node to a given node in the tree                                                                      | (data, parentNode) 1. child node's data to be appended 2. parent node's data, key or node                                                                                                                                                                                                   |
+| insertBefore ^(deprecated)           | insert a node before a given node in the tree                                                                        | (data, refNode) 1. node's data to be inserted 2. reference node's data, key or node                                                                                                                                                                                                         |
+| insertAfter ^(deprecated)            | insert a node after a given node in the tree                                                                         | (data, refNode) 1. node's data to be inserted 2. reference node's data, key or node                                                                                                                                                                                                         |
+| focus ^(deprecated)                  | focus the Input component                                                                                            | ^[Function]`() => void`                                                                                                                                                                                                                                                                     |
+| blur ^(deprecated)                   | blur the Input component, and hide the dropdown                                                                      | ^[Function]`() => void`                                                                                                                                                                                                                                                                     |
+| selectedLabel ^(2.8.5) ^(deprecated) | get the currently selected label                                                                                     | ^[object]`ComputedRef<string \| string[]>`                                                                                                                                                                                                                                                  |
 
 ## Type Declarations
 
@@ -40675,7 +40845,7 @@ Tree nodes can be filtered
 | disabled       | specify which key of node object represents if node's checkbox is disabled           | ^[string]                                                                                           | disabled |
 | class ^(2.9.0) | custom node class name                                                               | ^[string] / ^[Function]`(data: TreeNodeData, node: TreeNode) => string \| {[key: string]: boolean}` | —        |
 
-### TreeV2 Method
+### TreeV2 Exposes
 
 `Tree` has the following method, which returns the currently selected array of nodes.
 
@@ -41406,7 +41576,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 | isLeaf    | specify whether the node is a leaf node, only works when lazy load is enabled | ^[string] / ^[Function]`(data, node) => boolean` | —       |
 | class     | custom node class name                                                        | ^[string] / ^[Function]`(data, node) => string`  | —       |
 
-### Method
+### Exposes
 
 `Tree` has the following method, which returns the currently selected array of nodes.
 
